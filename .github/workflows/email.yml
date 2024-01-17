@@ -23,4 +23,5 @@ jobs:
       #     pip install -r requirements.txt
 
       - name: execute py script
-        run: python main.py
+        run: cd
+        # run: python main.py
