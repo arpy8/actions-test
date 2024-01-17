@@ -24,4 +24,4 @@ jobs:
 
       - name: execute py script
         run: cd
-        # run: python main.py
+        run: python main.py
