@@ -12,6 +12,10 @@ jobs:
 
       - name: checkout repo content
         uses: actions/checkout@v2
+        with:
+          ref: v2
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
 
       - name: setup python
         uses: actions/setup-python@v4
