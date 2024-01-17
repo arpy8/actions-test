@@ -3,7 +3,8 @@ name: run main.py
 on:
   schedule:
     - cron: '* * * * *'
-
+  workflow_dispatch:
+  
 jobs:
   build:
     runs-on: ubuntu-latest
