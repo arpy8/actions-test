@@ -1,0 +1,25 @@
+name: med:On Push Run
+
+on: 
+  schedule:
+    - cron: '*/1 * * * *'
+  workflow_dispatch:
+
+env:
+  DEVOPS_DIR: arpy8/actions-test
+
+jobs:
+  hello-world:
+    name: Hello world
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check-out devops repository
+      uses: actions/checkout@v2
+      with:
+        repository: arpy8/actions-test
+        token: ${{ secrets.GITHUB_TOKEN }}
+        path: ${{ env.DEVOPS_DIR }}
+
+    - name: Hello World
+      run: python ${{ env.DEVOPS_DIR }}/main.py
+      shell: sh
