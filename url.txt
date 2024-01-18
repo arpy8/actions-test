@@ -1,1 +1,1 @@
-https://github.com/oppia/oppia/contribute
+https://github.com/CircuitVerse/CircuitVerse/contribute
