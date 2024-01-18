@@ -1,39 +1,60 @@
 import os
-import pytz
-import datetime
+import logging
 import requests
 
-API_URL = f'https://disdial.onrender.com/data'
+from scraper import return_last_issue
 
-_chat_headers = {
-    'Authorization': os.environ["CHAT_TOKEN"],
-    'Content-Type': 'application/json',
-}
+CHANNEL_ID = os.environ["CHANNEL_ID"]
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+CHAT_TOKEN = os.environ["CHAT_TOKEN"]
 
-def get_time():
-    current_time = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-    return current_time.strftime('%Y-%m-%d %H:%M:%S %Z')
+logging.basicConfig(filename='data.log', level=logging.INFO)
 
-def send_message_to_server(message):
-    data = {
-        'time': get_time(),
-        'username': "Github Action",
-        'message': message,
-    }
+def update_log(message):
+    with open("data.log", "w") as file:
+        file.write(message)
+        return message
+    
+def check_log(message):
+    with open("data.log", "r") as f:
+        log = f.read()
+    if message in log:
+        return True
+    return False
 
-    try:
-        response = requests.post(API_URL, json=data, headers=_chat_headers)
-        response.raise_for_status()
-    except requests.exceptions.RequestException as e:
-        return f"Request failed: {e}"
+def send_message(message):
+    response = requests.post(
+        url=f'https://discord.com/api/v10/channels/{str(CHANNEL_ID)}/messages', 
+        headers={
+            'Authorization': f'Bot {BOT_TOKEN}',
+            'Content-Type': 'application/json',
+        },
+        json={
+            'content': f"New issue found: {message}",
+        }
+    )
 
+    if response.status_code != 200:
+            return "Error sending message"
 
 def main():
     try:
-        send_message_to_server("Hello World")
-        print("Message sent successfully")
+        with open("url.txt", "r") as f:
+            data = f.read()
+            url = data.strip()
+            
+        message = return_last_issue(url)
+        check = check_log(message)
+
+        if check:
+            print("No new issues")
+        else:
+            print("New issues found: ", message)
+            send_message(message)
+            update_log(message)
+            
     except Exception as e:
-        print(e)
+        print("Error", e)
         
 if __name__ == "__main__":
     main()

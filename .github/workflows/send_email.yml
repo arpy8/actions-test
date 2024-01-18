@@ -1,9 +1,9 @@
-name: send mail
+name: send message
 
 on:
   schedule:
-    - cron: '*/1 * * * *'
-
+    - cron: '*/15 * * * *'
+    
   workflow_dispatch:
 
 jobs:
@@ -25,4 +25,7 @@ jobs:
       - name: execute py script
         env:
           CHAT_TOKEN: ${{ secrets.CHAT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+
         run: python main.py
