@@ -1,39 +1,39 @@
-name: send message
+# name: send message
 
-on:
-  schedule:
-    - cron: '*/1 * * * *'
+# on:
+#   schedule:
+#     - cron: '*/1 * * * *'
     
-  workflow_dispatch:
+#   workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repo content
-        uses: actions/checkout@v2
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: checkout repo content
+#         uses: actions/checkout@v2
 
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+#       - name: setup python
+#         uses: actions/setup-python@v4
+#         with:
+#           python-version: '3.10'
       
-      - name: install python packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+#       - name: install python packages
+#         run: |
+#           python -m pip install --upgrade pip
+#           pip install -r requirements.txt
           
-      - name: execute py script
-        env:
-          CHAT_TOKEN: ${{ secrets.CHAT_TOKEN }}
-          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        run: python main.py
+#       - name: execute py script
+#         env:
+#           CHAT_TOKEN: ${{ secrets.CHAT_TOKEN }}
+#           CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+#           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+#         run: python main.py
         
-      - name: update data.log
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add data.log
-          git commit -m "Update data.log hopefully" --allow-empty
-          git push origin HEAD:main
+#       - name: update data.log
+#         run: |
+#           git config --global user.name "GitHub Actions"
+#           git config --global user.email "actions@github.com"
+#           git add data.log
+#           git commit -m "Update data.log hopefully" --allow-empty
+#           git push origin HEAD:main
